@@ -120,12 +120,32 @@ def getCityCode():
         raise error
 
 
-def getHotels():
+def getHotels(city, postal_code):
+    theCityCode = city[0 : 3]
     try:
         # Get list of Hotels by city code
-        hotels_by_city = amadeus.shopping.hotel_offers.get(cityCode='PAR')
-        print(hotels_by_city.data)
+        hotels_by_city = amadeus.shopping.hotel_offers.get(cityCode=theCityCode, postalCode = postal_code)
+       
+        result = "" 
+        address = {}
+        #address = dict(hotels_by_city.data['hotel']['address'])
+        strAddress = ""
+       print (hotels_by_city.data['hotel']['address'])
+        
+        #for items in address:
+         #   strAddress += address[items]
+        #print (strAddress)
+        for items in hotels_by_city.data:
+            result += "Hotel Name: " + str(items['hotel']['name']) + "<br/>"
+            result += "Address: " + str(items['hotel']['address']) + "<br/>"
+            result += "Rating: " + str(items['hotel']['rating']) + "<br/>"
+            result += "URL: " + str(items['hotel']['media']) + "<br/>""<br/>"
+            
+            print (items["hotel"]["media"])
+            print ('\n')
+
+        #print(hotels_by_city.data)
     except ResponseError as error:
         raise error
     
-    return hotels_by_city.data
+    return result

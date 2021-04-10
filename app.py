@@ -51,14 +51,18 @@ def getFlights():
 def findHotels():
 
     if request.method == "POST":
-
-        # input = request.form["input"]
-
-        result = func.getHotels()
+        
+        theCity = request.form["city"] #is this correct way to do it?
+        thePostalCode = request.form["postalCode"]
+        
+        if ((not theCity) or (not thePostalCode)):
+            return render_template("index.html")
+        
+        result = func.getHotels(theCity, thePostalCode)
 
         message = "Status: " + str(result)
 
-        return render_template("index.html", flights=str(message), showFlights=True)
-
+        return render_template("index.html", hotels=str(message), showHotels=True)
+    return render_template("index.html")
 if __name__ == '__main__':
    app.run(debug = True)
