@@ -118,3 +118,14 @@ def getCityCode():
             print("City code: " + code["address"]["cityCode"])
     except ResponseError as error:
         raise error
+
+
+def getHotels():
+    try:
+        # Get list of Hotels by city code
+        hotels_by_city = amadeus.shopping.hotel_offers.get(cityCode='PAR')
+        print(hotels_by_city.data)
+    except ResponseError as error:
+        raise error
+    
+    return hotels_by_city.data
